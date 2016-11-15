@@ -1,4 +1,4 @@
-package com.miserlyspark13.signinfirebase.login;
+package com.miserlyspark13.signinfirebase.Login;
 
 import android.app.Activity;
 

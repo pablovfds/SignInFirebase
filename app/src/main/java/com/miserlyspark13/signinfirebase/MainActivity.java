@@ -14,7 +14,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.miserlyspark13.signinfirebase.SignUp.SignupActivity;
-import com.miserlyspark13.signinfirebase.login.LoginActivity;
+import com.miserlyspark13.signinfirebase.Login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 

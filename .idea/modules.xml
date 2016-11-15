@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SignInFirebase.iml" filepath="$PROJECT_DIR$/SignInFirebase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WhatsFirebase.iml" filepath="$PROJECT_DIR$/WhatsFirebase.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
