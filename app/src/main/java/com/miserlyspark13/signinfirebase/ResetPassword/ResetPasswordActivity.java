@@ -1,73 +1,80 @@
 package com.miserlyspark13.signinfirebase.ResetPassword;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.miserlyspark13.signinfirebase.R;
 
-public class ResetPasswordActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-    private EditText inputEmail;
-    private Button btnReset, btnBack;
+public class ResetPasswordActivity extends AppCompatActivity implements ResetPasswordView {
+
     private FirebaseAuth auth;
-    private ProgressBar progressBar;
+
+    private ResetPasswordPresenter presenter;
+
+    @BindView(R.id.email) TextInputEditText inputEmail;
+
+    @BindView(R.id.progressBar) ProgressBar progressBar;
+
+    @BindView(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
-
-        inputEmail = (EditText) findViewById(R.id.email);
-        btnReset = (Button) findViewById(R.id.btn_reset_password);
-        btnBack = (Button) findViewById(R.id.btn_back);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        ButterKnife.bind(this);
 
         auth = FirebaseAuth.getInstance();
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        presenter = new ResetPasswordPresenterImpl(this, auth);
 
-        btnReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String email = inputEmail.getText().toString().trim();
-
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplication(), "Enter your registered email id", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                progressBar.setVisibility(View.VISIBLE);
-                auth.sendPasswordResetEmail(email)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(ResetPasswordActivity.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(ResetPasswordActivity.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
-                                }
-
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        });
-            }
-        });
     }
 
+    @OnClick(R.id.btn_back)
+    public void backToLogin(){
+        finish();
+    }
+
+    @OnClick(R.id.btn_reset_password)
+    public void resetPassword() {
+        String email = inputEmail.getText().toString().trim();
+
+        presenter.validateCredentials(email);
+    }
+
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setEmailError() {
+        inputEmail.setError(getString(R.string.error_invalid_email));
+    }
+
+    @Override
+    public void setResetError() {
+        Snackbar.make(coordinatorLayout, getString(R.string.error_send_email), Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void navigateToLogin() {
+        Snackbar.make(coordinatorLayout, getString(R.string.sucess_send_email), Snackbar.LENGTH_LONG).show();
+    }
 }

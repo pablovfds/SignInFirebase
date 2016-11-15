@@ -27,7 +27,6 @@ public class LoginPresenterImpl implements LoginPresenter, LoginModel.OnLoginFin
         }
 
         loginModel.login(username, password, this,auth, activity);
-
     }
 
     @Override
