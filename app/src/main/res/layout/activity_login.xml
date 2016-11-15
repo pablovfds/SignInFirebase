@@ -64,6 +64,11 @@
             android:text="@string/btn_login"
             android:textColor="@android:color/black" />
 
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btn_google_signin"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+
         <Button
             android:id="@+id/btn_reset_password"
             android:layout_width="fill_parent"

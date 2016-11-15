@@ -2,6 +2,7 @@ package com.miserlyspark13.signinfirebase.Login;
 
 import android.app.Activity;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -27,6 +28,11 @@ public class LoginPresenterImpl implements LoginPresenter, LoginModel.OnLoginFin
         }
 
         loginModel.login(username, password, this,auth, activity);
+    }
+
+    @Override
+    public void firebaseAuthWithGoogle(GoogleSignInAccount acct, Activity activity) {
+        loginModel.firebaseAuthWithGoogle(auth, acct,activity, this);
     }
 
     @Override
@@ -78,6 +84,14 @@ public class LoginPresenterImpl implements LoginPresenter, LoginModel.OnLoginFin
     public void onLoginError() {
         if (loginView != null) {
             loginView.setLoginFailed();
+            loginView.hideProgress();
+        }
+    }
+
+    @Override
+    public void onAuthenticationError() {
+        if (loginView != null) {
+            loginView.setAuthenticationFailed();
             loginView.hideProgress();
         }
     }

@@ -18,4 +18,6 @@ public interface LoginView {
     void setInvalidLengthPasswordError();
 
     void setLoginFailed();
+
+    void setAuthenticationFailed();
 }
